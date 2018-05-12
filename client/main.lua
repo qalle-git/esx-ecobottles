@@ -109,7 +109,7 @@ function OpenTrashCan()
 end
 
 ----markers
-AddEventHandler('esx_duty:hasEnteredMarker', function (zone)
+AddEventHandler('esx_pantsystem:hasEnteredMarker', function (zone)
   if zone == 'Pant' then
     CurrentAction     = 'pant_flaskor'
     CurrentActionMsg  = _U('press_e')
@@ -117,7 +117,7 @@ AddEventHandler('esx_duty:hasEnteredMarker', function (zone)
   end
 end)
 
-AddEventHandler('esx_duty:hasExitedMarker', function (zone)
+AddEventHandler('esx_pantsystem:hasExitedMarker', function (zone)
   CurrentAction = nil
 end)
 
@@ -187,12 +187,12 @@ Citizen.CreateThread(function ()
     if (isInMarker and not HasAlreadyEnteredMarker) or (isInMarker and LastZone ~= currentZone) then
       HasAlreadyEnteredMarker = true
       LastZone                = currentZone
-      TriggerEvent('esx_duty:hasEnteredMarker', currentZone)
+      TriggerEvent('esx_pantsystem:hasEnteredMarker', currentZone)
     end
 
     if not isInMarker and HasAlreadyEnteredMarker then
       HasAlreadyEnteredMarker = false
-      TriggerEvent('esx_duty:hasExitedMarker', LastZone)
+      TriggerEvent('esx_pantsystem:hasExitedMarker', LastZone)
     end
   end
 end)
@@ -230,7 +230,7 @@ function sendNotification(message, messageType, messageTimeout)
 	TriggerEvent("pNotify:SendNotification", {
 		text = message,
 		type = messageType,
-		queue = "duty",
+		queue = "pantsystem",
 		timeout = messageTimeout,
 		layout = "bottomCenter"
 	})
