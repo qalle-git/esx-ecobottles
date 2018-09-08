@@ -1,11 +1,8 @@
-# esx_pantsystem
+# esx-ecobottles
 
 [REQUIREMENTS]
   
 * ESX Support
-	*essentialmode
-	*es_extended
-	*pNotify
 
 [INSTALLATION]
 
@@ -14,4 +11,4 @@
 2) Import ``item.sql`` in your database
 
 3) Add this in your server.cfg :
-``start esx_pantsystem``
+``start esx-ecobottles``
