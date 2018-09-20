@@ -25,10 +25,10 @@ function LoadMarkers()
         for index, value in pairs(Coordinates) do
             local blip = AddBlipForCoord(value.x, value.y, value.z)
     
-            SetBlipSprite (blip, 409)
+            SetBlipSprite (blip, 365)
             SetBlipDisplay(blip, 4)
-            SetBlipScale  (blip, 0.8)
-            SetBlipColour (blip, 48)
+            SetBlipScale  (blip, 1.0)
+            SetBlipColour (blip, 69)
             SetBlipAsShortRange(blip, true)
     
             BeginTextCommandSetBlipName("STRING")
@@ -71,12 +71,34 @@ Citizen.CreateThread(function()
             'prop_bin_01a',
             'prop_bin_03a',
             'prop_bin_05a',
+            'prop_dumpster_02a',
+            'prop_bin_02a',
+            'prop_dumpster_01a',
+            'prop_binoc_01',
+			'prop_bin_04a',
+			'prop_bin_10a',
+			'prop_bin_10b',
+			'prop_bin_11a',
+			'prop_bin_11b',
+			'prop_bin_12a',
+			'prop_bin_13a',
+			'prop_bin_14a',
+			'prop_bin_14b',
+			'prop_bin_beach_01d',
+			'prop_bin_delpiero',
+			'prop_bin_delpiero_b',
+			'prop_cs_bin_01',
+			'prop_cs_bin_01_lid',
+			'prop_cs_bin_01_skinned',
+			'prop_cs_bin_02',
+			'prop_cs_bin_03'
         })
 
-        if distance ~= -1 and distance <= 1.5 then
+        if distance ~= -1 and distance <= 3 then
             if entity ~= nil then
                 local binCoords = GetEntityCoords(entity)
-                ESX.Game.Utils.DrawText3D({ x = binCoords.x, y = binCoords.y, z = binCoords.z + 1 }, '[E] Search Trashbin', 0.4)
+
+                ESX.Game.Utils.DrawText3D({ x = binCoords.x, y = binCoords.y, z = binCoords.z + 1 }, '[E] Search Trashbin', 1.0)
                 if IsControlJustReleased(0, 38) then
                     if lastBin ~= entity then
                         lastBin = entity
@@ -96,7 +118,8 @@ end)
 
 function OpenTrashCan()
     TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_BUM_BIN", 0, true)
-    Citizen.Wait(10000)
-    TriggerServerEvent('esx-ecobottles:retrieveBottle')
-    ClearPedTasksImmediately(PlayerPedId())
+    Citizen.Wait(4000)
+    TriggerServerEvent('esx-ecobottles:retrieveBottle')  
+    Citizen.Wait(2000)    
+    ClearPedTasks(PlayerPedId())
 end
