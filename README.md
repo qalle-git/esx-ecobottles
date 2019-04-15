@@ -2,13 +2,13 @@
 
 [REQUIREMENTS]
   
-* ESX Support
+* ESX
 
 [INSTALLATION]
 
-1) CD in your resources/[esx] folder
+1) CD in your resources folder
 
-2) Import ``item.sql`` in your database
+2) Import ``emptybottleitem.sql`` into your database
 
 3) Add this in your server.cfg :
 ``start esx-ecobottles``
