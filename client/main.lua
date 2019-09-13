@@ -63,35 +63,48 @@ Citizen.CreateThread(function()
     end
 end)
 
+local binCoords
+local binentity
+Citizen.CreateThread(
+    function()
+        Citizen.Wait(100)
+        while true do
+            local entity, entityDst = ESX.Game.GetClosestObject(Config.BinsAvailable)
+            if DoesEntityExist(entity) and entityDst <= 3.5 then
+                binentity=entity
+                binCoords = GetEntityCoords(entity)
+            else
+                binCoords = nil
+                binentity=nil
+            end
+            Citizen.Wait(1000)
+        end
+    end
+)
+
 Citizen.CreateThread(function()
     Citizen.Wait(100)
 
     while true do
-        local sleepThread = 1000
-
-        local entity, entityDst = ESX.Game.GetClosestObject(Config.BinsAvailable)
-
-        if DoesEntityExist(entity) and entityDst <= 1.5 then
-            sleepThread = 5
-
-            local binCoords = GetEntityCoords(entity)
-
-            ESX.Game.Utils.DrawText3D(binCoords + vector3(0.0, 0.0, 0.5), "[~g~E~s~] Search Trashbin", 0.4)
+        if binCoords then
+            ESX.Game.Utils.DrawText3D(binCoords.x, binCoords.y, binCoords.z + 1.0, "[E]")
 
             if IsControlJustReleased(0, 38) then
-                if not cachedBins[entity] then
-                    cachedBins[entity] = true
+                if not cachedBins[binentity] then
+                    cachedBins[binentity] = true
 
                     OpenTrashCan()
                 else
                     ESX.ShowNotification("You've already searched this bin!")
                 end
             end
+            Citizen.Wait(5)
+        else
+            Citizen.Wait(500)
         end
-
-        Citizen.Wait(sleepThread)
     end
 end)
+
 
 function OpenTrashCan()
     TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_BUM_BIN", 0, true)
